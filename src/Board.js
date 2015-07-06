@@ -79,12 +79,32 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      var first, second; // booleans to keep track of first piece in row
+
+      // get the row index
+      var row = this.rows()[rowIndex];
+      // check to see if sum of the array is greater than 1
+      for (var i=0; i < row.length; i++) {
+        if (first === undefined && row[i] === 1) {
+          first = true;
+        } else if (second === undefined && row[i] === 1) {
+          second = true;
+          return true;
+        }
+      }
+      return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      // for each row in the board map the row to true or false using hasRowConflictAt(row)
+      var that = this;
+      var conflicts = _.map(this.rows(), function(row, rowIndex) {
+        return that.hasRowConflictAt(rowIndex);
+      });
+
+      // if conflicts contains a true return true else return false
+      return _.contains(conflicts, true);
     },
 
 
@@ -94,12 +114,38 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // create an array for keeping track of pieces in colIndex and map each the col position of each row to a new col array
+      var column = _.map(this.rows(), function(row) {
+        return rows[i][colIndex] === 1 ? 1 : 0;
+      });
+
+      var piecesInCol = 0;
+      for (var i=0; i < column.length; i++) {
+        if (column[i] === 1) {
+          piecesInCol++;
+        }
+        if (piecesInCol > 1) {
+          return true;
+        }
+      }
+      return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // for each col in the board
+        // map the row to true or false using hasColConflictAt(col)
+      var conflicts = []; // keep track of column conflicts;
+
+      for (var col = 0; this.get('n'); col++) {
+
+        // map column conflicts to an array
+        conflicts.push(this.hasColConflictAt(col));
+
+      }
+
+      // if the mapped array has any true return true otherwise return false
+      return _.contains(conflicts, true); // fixme
     },
 
 
