@@ -117,9 +117,14 @@
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       var rows = this.rows();
-      for (var i = 0; i < rows[0].length; i++) {
-        if(this.hasColConflictAt(i)) return true;
-      };
+      console.log(rows);
+    
+
+      if (rows[0]) {
+        for (var i = 0; i < rows[0].length; i++) {
+          if(this.hasColConflictAt(i)) return true;
+        };
+      }
       return false;
     },
 
